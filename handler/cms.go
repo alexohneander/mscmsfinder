@@ -29,7 +29,9 @@ func testEndpoints(url string) types.ParseResponse {
 	db.Find(&systems)
 
 	for _, cms := range systems {
-		res = client.TestEndpoint(url, cms.UrlPath)
+		if !res.Found {
+			res = client.TestEndpoint(url, cms)
+		}
 	}
 
 	return res

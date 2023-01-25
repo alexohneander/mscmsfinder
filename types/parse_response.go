@@ -4,9 +4,10 @@ type ParseResponse struct {
 	Status  int
 	Message string
 	Payload Payload
+	Found   bool
 }
 
 type Payload struct {
-	Body   any
+	Body   string
 	Header any
 }
