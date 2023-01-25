@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"fmt"
 	"mscmsfinder/client"
 	"mscmsfinder/database"
 	"mscmsfinder/model"
+	"mscmsfinder/types"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -12,25 +12,25 @@ import (
 // Try to Parse CMS Information
 func FindCMS(c *fiber.Ctx) error {
 
-	message := "requesting"
+	var res types.ParseResponse
 
 	url := c.Query("url")
-	message = TestEndpoints(url)
+	res = testEndpoints(url)
 
-	return c.JSON(fiber.Map{"status": "success", "message": message, "data": nil})
+	return c.JSON(fiber.Map{"status": res.Status, "message": res.Message, "data": res.Payload})
 }
 
-func TestEndpoints(url string) string {
-	message := "testing Endpoints"
+func testEndpoints(url string) types.ParseResponse {
+	var res types.ParseResponse
+	res.Message = "testing Endpoints"
 
 	db := database.DB
 	var systems []model.CMS
 	db.Find(&systems)
 
 	for _, cms := range systems {
-		message = client.TestEndpoint(url, cms.UrlPath)
-		fmt.Println(cms.Title)
+		res = client.TestEndpoint(url, cms.UrlPath)
 	}
 
-	return message
+	return res
 }

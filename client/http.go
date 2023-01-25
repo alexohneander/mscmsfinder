@@ -2,25 +2,36 @@ package client
 
 import (
 	"mscmsfinder/helper"
+	"mscmsfinder/types"
 	"net/http"
 )
 
-func TestEndpoint(url string, path string) string {
-	message := ""
+func TestEndpoint(url string, path string) types.ParseResponse {
+	var res types.ParseResponse
 	fullUrl := url + path
 
 	if !helper.IsValidURL(fullUrl) {
-		message = "Url is not valid"
+		res.Message = "Url is not valid"
+	} else {
+		res = requestEndpoint(fullUrl)
 	}
 
-	resp, err := http.Get(fullUrl)
+	return res
+}
+
+func requestEndpoint(url string) types.ParseResponse {
+	var res types.ParseResponse
+
+	httpResp, err := http.Get(url)
 	if err != nil {
-		message = "Cannot request URL"
+		res.Message = "Cannot request URL"
+		res.Status = 500
+	} else {
+		res.Message = httpResp.Status
+		res.Status = httpResp.StatusCode
+		res.Payload.Header = httpResp.Header
+		res.Payload.Body = httpResp.Body
 	}
 
-	if resp.StatusCode == 200 {
-		message = "Request was successfull"
-	}
-
-	return message
+	return res
 }
