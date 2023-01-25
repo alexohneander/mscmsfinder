@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/gofiber/fiber/v2 v2.41.0
 	github.com/joho/godotenv v1.4.0
+	golang.org/x/net v0.0.0-20220906165146-f3363e06e74c
 	gorm.io/driver/sqlite v1.4.4
 	gorm.io/gorm v1.24.3
 )
