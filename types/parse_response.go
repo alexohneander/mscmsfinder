@@ -5,6 +5,7 @@ type ParseResponse struct {
 	Message string
 	Payload Payload
 	Found   bool
+	CMS     string
 }
 
 type Payload struct {

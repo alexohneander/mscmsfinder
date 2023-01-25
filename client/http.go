@@ -2,11 +2,14 @@ package client
 
 import (
 	"bytes"
+	"fmt"
 	"mscmsfinder/helper"
 	"mscmsfinder/model"
 	"mscmsfinder/types"
 	"net/http"
 	"strings"
+
+	"golang.org/x/net/html"
 )
 
 func TestEndpoint(url string, cms model.CMS) types.ParseResponse {
@@ -53,11 +56,15 @@ func requestEndpoint(url string) types.ParseResponse {
 }
 
 func parsePayload(response types.ParseResponse, cms model.CMS) types.ParseResponse {
+
+	test := html.UnescapeString(response.Payload.Body)
+	fmt.Println(test)
+
 	foundCMS := strings.Contains(response.Payload.Body, cms.QueryString)
 	if foundCMS {
-		response.Message = cms.Title
+		response.Message = "Found CMS"
+		response.CMS = cms.Title
 		response.Payload.Body = ""
-		response.Payload.Header = ""
 		response.Found = true
 	}
 

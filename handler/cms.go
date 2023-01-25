@@ -17,7 +17,7 @@ func FindCMS(c *fiber.Ctx) error {
 	url := c.Query("url")
 	res = testEndpoints(url)
 
-	return c.JSON(fiber.Map{"status": res.Status, "message": res.Message, "data": res.Payload})
+	return c.JSON(fiber.Map{"status": res.Status, "message": res.Message, "data": res.Payload, "cms": res.CMS})
 }
 
 func testEndpoints(url string) types.ParseResponse {
