@@ -9,3 +9,14 @@ git clone https://github.com/alexohneander/mscmsfinder.git
 
 go get .
 ```
+
+## Usage
+
+```bash
+go run .
+```
+
+**API Request:**
+```bash
+curl http://127.0.0.1:3000/api/cms/find?url=http://example.de
+```
